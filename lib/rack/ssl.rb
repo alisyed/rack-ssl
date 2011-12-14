@@ -26,7 +26,7 @@ module Rack
       if @exclude && @exclude.call(env)
         @app.call(env)
       elsif scheme(env) == 'https'
-	redirect_to_https(env) if @disallow_no_subdomain && URI(env["REQUEST_URI"]).host.scan('.').count<2  #redirect to a www subdomain if no domain is given
+	redirect_to_https(env) if @disallow_no_subdomain && env["SERVER_NAME"].scan('.').count<2  #redirect to a www subdomain if no domain is given
 
         status, headers, body = @app.call(env)
         headers = hsts_headers.merge(headers)
