@@ -53,7 +53,7 @@ module Rack
         req        = Request.new(env)
         url        = URI(req.url)
         url.scheme = "https"
-        url.host   = @host if @host
+        url.host   = @host if @host && !@disallow_no_subdomain #lets not set a host if either its not set in the config OR a subdomain was provided and allowed
         url.port   = @port if @port
         headers    = hsts_headers.merge('Content-Type' => 'text/html',
                                         'Location'     => url.to_s)
